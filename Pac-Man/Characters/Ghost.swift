@@ -184,5 +184,5 @@ struct Ghost: View {
 }
 
 #Preview {
-    Ghost(character: .inky, eyeDirection: .left, scale: 2)
+    Ghost(character: .blinky, eyeDirection: .up, scale: 2)
 }

@@ -52,9 +52,11 @@ struct JoystickBorder: Shape {
 }
 
 struct Joystick: View {
+    let scale: CGFloat = 1.0
+    let movementRadius: CGFloat = 50.0
+
     @State private var dragAmount = CGSize.zero
     
-    let movementRadius: CGFloat = 50.0
     
     var body: some View {
         GeometryReader { geo in
@@ -66,7 +68,7 @@ struct Joystick: View {
                         VStack {
                             Spacer()
                             Text("MOVE")
-                                .font(.largeTitle)
+                                .font(.system(size: geo.size.width * 0.08))
                                 .fontWeight(.black)
                                 .foregroundStyle(.cyan)
                                 .offset(y: geo.size.height * 0.01)
@@ -159,8 +161,10 @@ struct Joystick: View {
                 }
                 .foregroundStyle(.red.opacity(0.9))
             }
+            .padding(5)
             
         }
+        .frame(width: scale * 200, height: scale * 400)
     }
 }
 
