@@ -66,35 +66,34 @@ struct GhostShape: Shape {
             // MARK: Semi-cirlcle top
             // Add arc to top of ghost shape
             path.addArc(center: CGPoint(x: rect.midX, y: rect.midY),
-                                    radius: rect.height / 2,
-                                    startAngle: Angle(degrees: 0),
-                                    endAngle: Angle(degrees: 180),
-                                    clockwise: true)
+                        radius: rect.height / 2,
+                        startAngle: Angle(degrees: 0),
+                        endAngle: Angle(degrees: 180),
+                        clockwise: true)
         }
     }
 }
 
-enum EyeDirection {
-    case left, right, up, down
-}
 struct Eyes: View {
-    let direction: EyeDirection
+    let direction: Direction
     
     // Switch on direction
     // to provide a pupil alignment in the body
     var alignment: Alignment {
         switch direction {
         case .left:
-            .leading
+                .leading
         case .right:
-            .trailing
+                .trailing
         case .up:
-            .top
+                .top
         case .down:
-            .bottom
+                .bottom
+        case .none:
+                .center
         }
     }
-
+    
     var body: some View {
         GeometryReader { geo in
             HStack(spacing: geo.size.width * 0.1) {
@@ -143,7 +142,7 @@ enum Character {
 
 struct Ghost: View {
     let character: Character
-    let eyeDirection: EyeDirection
+    let eyeDirection: Direction
     let scale: CGFloat
     
     var ghostColor: Color {
@@ -160,23 +159,23 @@ struct Ghost: View {
     }
     
     var body: some View {
-        GeometryReader { geo in           
-                ZStack {
-                    // Pinky, Inky, and Clyde receive
-                    // a white base layer behind main ghost
-                    if character != .blinky {
-                        GhostShape()
-                            .frame(width: geo.size.width, height: geo.size.height)
-                            .foregroundStyle(.white)
-                    }
-                    
-                    // Main ghost object
+        GeometryReader { geo in
+            ZStack {
+                // Pinky, Inky, and Clyde receive
+                // a white base layer behind main ghost
+                if character != .blinky {
                     GhostShape()
                         .frame(width: geo.size.width, height: geo.size.height)
-                        .foregroundStyle(ghostColor)
-                    
-                    Eyes(direction: eyeDirection)
-                        .offset(y: geo.size.height * 0.16)
+                        .foregroundStyle(.white)
+                }
+                
+                // Main ghost object
+                GhostShape()
+                    .frame(width: geo.size.width, height: geo.size.height)
+                    .foregroundStyle(ghostColor)
+                
+                Eyes(direction: eyeDirection)
+                    .offset(y: geo.size.height * 0.16)
             }
         }
         .frame(width: scale * 50, height: scale * 50)

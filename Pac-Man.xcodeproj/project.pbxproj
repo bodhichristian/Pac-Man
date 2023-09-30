@@ -10,6 +10,7 @@
 		AA46979A2AC7C37600252289 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4697992AC7C37600252289 /* Joystick.swift */; };
 		AA53B6672AC5B20100F411E7 /* Ghost.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA53B6662AC5B20100F411E7 /* Ghost.swift */; };
 		AA53B6692AC5BD3000F411E7 /* CharacterDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA53B6682AC5BD3000F411E7 /* CharacterDisplay.swift */; };
+		AA89ED0C2AC8B610005997C7 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89ED0B2AC8B610005997C7 /* Direction.swift */; };
 		AABAD01E2AC527E10085E6C8 /* PacManApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABAD01D2AC527E10085E6C8 /* PacManApp.swift */; };
 		AABAD0222AC527E20085E6C8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AABAD0212AC527E20085E6C8 /* Assets.xcassets */; };
 		AABAD0252AC527E20085E6C8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AABAD0242AC527E20085E6C8 /* Preview Assets.xcassets */; };
@@ -23,6 +24,7 @@
 		AA4697992AC7C37600252289 /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		AA53B6662AC5B20100F411E7 /* Ghost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghost.swift; sourceTree = "<group>"; };
 		AA53B6682AC5BD3000F411E7 /* CharacterDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDisplay.swift; sourceTree = "<group>"; };
+		AA89ED0B2AC8B610005997C7 /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
 		AABAD01A2AC527E10085E6C8 /* Pac-Man.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pac-Man.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AABAD01D2AC527E10085E6C8 /* PacManApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacManApp.swift; sourceTree = "<group>"; };
 		AABAD0212AC527E20085E6C8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -44,6 +46,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA89ED0A2AC8B5FE005997C7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AA89ED0B2AC8B610005997C7 /* Direction.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		AAA458662AC7B23E00B7631D /* Characters */ = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				AABAD01D2AC527E10085E6C8 /* PacManApp.swift */,
+				AA89ED0A2AC8B5FE005997C7 /* Models */,
 				AAA458692AC7B27100B7631D /* Game */,
 				AAA458662AC7B23E00B7631D /* Characters */,
 				AAA458672AC7B24E00B7631D /* Objects */,
@@ -195,6 +206,7 @@
 				AABAD02E2AC52BD00085E6C8 /* GameView.swift in Sources */,
 				AABAD01E2AC527E10085E6C8 /* PacManApp.swift in Sources */,
 				AA53B6672AC5B20100F411E7 /* Ghost.swift in Sources */,
+				AA89ED0C2AC8B610005997C7 /* Direction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

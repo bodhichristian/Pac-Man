@@ -8,49 +8,67 @@
 import SwiftUI
 
 struct CharacterDisplay: View {
-    let scale = 1.5
+    let scale = 1.2
+    
+    @State private var direction: Direction = .none
+    
+    private var rotationDegree: Double {
+        switch direction {
+        case .left:
+            180
+        case .right:
+            0
+        case .up:
+            90
+        case .down:
+            270
+        case .none:
+            0
+        }
+    }
     
     var body: some View {
-        VStack {
-            Text("Pac-Man")
-                .font(.title)
-                .bold()
-            
-            PacMan(scale: 4, mouthOpen: .constant(true))
-            
-            HStack {
-                VStack {
-                    Ghost(character: .blinky, eyeDirection: .down, scale: scale)
-                    Text("Blinky")
-                }
+        NavigationStack {
+            VStack(spacing: 40) {
+      
                 
-                VStack {
-                    Ghost(character: .pinky, eyeDirection: .up, scale: scale)
-                    Text("Pinky")
-                }
+                PacMan(scale: 3, mouthOpen: .constant(true))
+                    .rotationEffect(Angle(degrees: rotationDegree))
                 
-                VStack {
-                    Ghost(character: .inky, eyeDirection: .left, scale: scale)
-                    Text("Inky")
+                HStack {
+                    VStack {
+                        Ghost(character: .blinky, eyeDirection: .down, scale: scale)
+                        Text("Blinky")
+                    }
+                    
+                    VStack {
+                        Ghost(character: .pinky, eyeDirection: .up, scale: scale)
+                        Text("Pinky")
+                    }
+                    
+                    VStack {
+                        Ghost(character: .inky, eyeDirection: .left, scale: scale)
+                        Text("Inky")
+                    }
+                    
+                    VStack {
+                        Ghost(character: .clyde, eyeDirection: .right, scale: scale)
+                        Text("Clyde")
+                    }
                 }
+                .padding()
+                .background {
+                    RoundedRectangle(cornerRadius: 20)
+                        .foregroundStyle(.thinMaterial)
+                }
+
+                Joystick(scale: 1.3, direction: $direction)
                 
-                VStack {
-                    Ghost(character: .clyde, eyeDirection: .right, scale: scale)
-                    Text("Clyde")
-                }
             }
-            .padding()
             .background {
-                RoundedRectangle(cornerRadius: 20)
-                    .foregroundStyle(.ultraThinMaterial)
-            }
-            .padding(.top, 20)
-            
-            Joystick()
-            
+                Color.black
         }
-        .background {
-            Color.black
+            .navigationTitle("Pac-Man")
         }
     }
 }

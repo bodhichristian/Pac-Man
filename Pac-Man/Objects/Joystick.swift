@@ -52,11 +52,12 @@ struct JoystickBorder: Shape {
 }
 
 struct Joystick: View {
-    let scale: CGFloat = 1.0
+    let scale: CGFloat
     let movementRadius: CGFloat = 50.0
 
     @State private var dragAmount = CGSize.zero
     
+    @Binding var direction: Direction
     
     var body: some View {
         GeometryReader { geo in
@@ -71,38 +72,52 @@ struct Joystick: View {
                                 .font(.system(size: geo.size.width * 0.08))
                                 .fontWeight(.black)
                                 .foregroundStyle(.cyan)
-                                .offset(y: geo.size.height * 0.01)
+                                .offset(y: geo.size.height * 0.025)
                         }
                     }
 
                 // Joystick and Arrows
                 ZStack {
-                    // Up and down arrowts
+                    // Up and down arrows
                     VStack {
                         Triangle()
-                            .frame(width: geo.size.width * 0.3, height: geo.size.height * 0.1)
+                            .frame(
+                                width: geo.size.width * 0.3,
+                                height: geo.size.height * 0.2
+                            )
                         
                         Spacer()
                         
                         Triangle()
-                            .frame(width: geo.size.width * 0.3, height: geo.size.height * 0.1)
+                            .frame(
+                                width: geo.size.width * 0.3,
+                                height: geo.size.height * 0.2
+                            )
                             .rotationEffect(Angle(degrees: 180))
                     }
-                    .frame(width: geo.size.width * 0.8, height: geo.size.height * 0.45)
+                    .frame(
+                        width: geo.size.width * 0.9,
+                        height: geo.size.width * 0.9
+                    )
                     
                     // Left and right arrows
-                    HStack(spacing: -geo.size.width * 0.055) {
+                    HStack {
                         Triangle()
-                            .frame(width: geo.size.width * 0.3, height: geo.size.height * 0.1)
+                            .frame(width: geo.size.width * 0.3,
+                                   height: geo.size.height * 0.2)
                             .rotationEffect(Angle(degrees: 270))
                         
                         Spacer()
+                            .frame(width: geo.size.width * 0.4)
                         
                         Triangle()
-                            .frame(width: geo.size.width * 0.3, height: geo.size.height * 0.1)
+                            .frame(width: geo.size.width * 0.3,
+                                   height: geo.size.height * 0.2)
                             .rotationEffect(Angle(degrees: 90))
                     }
                     
+                    
+                    // Plastic Ring
                     Circle()
                         .foregroundStyle(Color(white: 0.2))
                         .frame(width: geo.size.width * 0.58)
@@ -161,13 +176,12 @@ struct Joystick: View {
                 }
                 .foregroundStyle(.red.opacity(0.9))
             }
-            .padding(5)
             
         }
-        .frame(width: scale * 200, height: scale * 400)
+        .frame(width: scale * 200, height: scale * 200)
     }
 }
 
 #Preview {
-    Joystick()
+    Joystick(scale: 1.5, direction: .constant(.none))
 }
