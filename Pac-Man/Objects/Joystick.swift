@@ -52,6 +52,10 @@ struct JoystickBorder: Shape {
 }
 
 struct Joystick: View {
+    @State private var dragAmount = CGSize.zero
+    
+    let movementRadius: CGFloat = 50.0
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -68,66 +72,90 @@ struct Joystick: View {
                                 .offset(y: geo.size.height * 0.01)
                         }
                     }
-                
-                
-                
-                // Joystick and Arrows
-                VStack(spacing: 0) {
-                    HStack {
-                        Spacer()
-                        
-                        Triangle()
-                            .frame(width: geo.size.width * 0.3, height: geo.size.height * 0.1)
-                        
-                        Spacer()
-                    }
-                    
-                    HStack(spacing: -geo.size.width * 0.055) {
-                        Triangle()
-                            .frame(width: geo.size.width * 0.3, height: geo.size.height * 0.1)
-                            .rotationEffect(Angle(degrees: 270))
-                        
-                        // Joystick
-                        ZStack {
-                            Circle()
-                                .fill(
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [.white, .red, .black]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
-                                .padding()
-                                .frame(width: geo.size.width * 0.5)
-                            
-                            Circle()
-                                .fill(
-                                    RadialGradient(
-                                        gradient: Gradient(colors: [Color.white, Color.black]),
-                                        center: .center,
-                                        startRadius: 0,
-                                        endRadius: geo.size.width * 0.25
-                                    )
-                                )
-                                .padding()
-                                .frame(width: geo.size.width * 0.5)
-                                .opacity(0.2)
-                        }
 
+                // Joystick and Arrows
+                ZStack {
+                    // Up and down arros
+                    VStack {
                         Triangle()
                             .frame(width: geo.size.width * 0.3, height: geo.size.height * 0.1)
-                            .rotationEffect(Angle(degrees: 90))
-                    }
-                    
-                    HStack(spacing: 0) {
+                        
                         Spacer()
                         
                         Triangle()
                             .frame(width: geo.size.width * 0.3, height: geo.size.height * 0.1)
                             .rotationEffect(Angle(degrees: 180))
+                    }
+                    .frame(width: geo.size.width * 0.8, height: geo.size.height * 0.45)
+                    
+                    // Left and right arrows
+                    HStack(spacing: -geo.size.width * 0.055) {
+                        Triangle()
+                            .frame(width: geo.size.width * 0.3, height: geo.size.height * 0.1)
+                            .rotationEffect(Angle(degrees: 270))
                         
                         Spacer()
+                        
+                        Triangle()
+                            .frame(width: geo.size.width * 0.3, height: geo.size.height * 0.1)
+                            .rotationEffect(Angle(degrees: 90))
                     }
+                    
+                    Circle()
+                        .foregroundStyle(Color(white: 0.2))
+                        .frame(width: geo.size.width * 0.58)
+                    
+                    // Joystick
+                    ZStack {
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [.white, .red, .black]),
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .padding()
+                            .frame(width: geo.size.width * 0.5)
+                        
+                        Circle()
+                            .fill(
+                                RadialGradient(
+                                    gradient: Gradient(colors: [Color.white, Color.black]),
+                                    center: .center,
+                                    startRadius: 0,
+                                    endRadius: geo.size.width * 0.25
+                                )
+                            )
+                            .padding()
+                            .frame(width: geo.size.width * 0.5)
+                            .opacity(0.2)
+                    }
+                    .shadow(radius: 4, y: 4)
+                    .offset(dragAmount)
+                    .gesture(
+                        DragGesture()
+                            .onChanged { gesture in
+                                let translation = gesture.translation
+                                let distance = sqrt(pow(translation.width, 2) + pow(translation.height, 2))
+                                
+                                // Check if the distance is within the fixed radius
+                                if distance <= geo.size.width * 0.2 {
+                                    dragAmount = translation
+                                } else {
+                                    // If the distance exceeds the fixed radius, limit the movement
+                                    let angle = atan2(translation.height, translation.width)
+                                    let x = geo.size.width * 0.2 * cos(angle)
+                                    let y = geo.size.width * 0.2 * sin(angle)
+                                    dragAmount = CGSize(width: x, height: y)
+                                }
+                            }
+                            .onEnded { _ in
+                                dragAmount = .zero
+                            }
+                    )
+                    .animation(.bouncy(), value: dragAmount)
+                    
                 }
                 .foregroundStyle(.red.opacity(0.9))
             }
