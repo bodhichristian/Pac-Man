@@ -75,7 +75,7 @@ struct Joystick: View {
 
                 // Joystick and Arrows
                 ZStack {
-                    // Up and down arros
+                    // Up and down arrowts
                     VStack {
                         Triangle()
                             .frame(width: geo.size.width * 0.3, height: geo.size.height * 0.1)
@@ -131,7 +131,7 @@ struct Joystick: View {
                             .frame(width: geo.size.width * 0.5)
                             .opacity(0.2)
                     }
-                    .shadow(radius: 4, y: 4)
+                    .shadow(color: .black, radius: 8)
                     .offset(dragAmount)
                     .gesture(
                         DragGesture()
@@ -140,13 +140,13 @@ struct Joystick: View {
                                 let distance = sqrt(pow(translation.width, 2) + pow(translation.height, 2))
                                 
                                 // Check if the distance is within the fixed radius
-                                if distance <= geo.size.width * 0.2 {
+                                if distance <= geo.size.width * 0.15 {
                                     dragAmount = translation
                                 } else {
                                     // If the distance exceeds the fixed radius, limit the movement
                                     let angle = atan2(translation.height, translation.width)
-                                    let x = geo.size.width * 0.2 * cos(angle)
-                                    let y = geo.size.width * 0.2 * sin(angle)
+                                    let x = geo.size.width * 0.15 * cos(angle)
+                                    let y = geo.size.width * 0.15 * sin(angle)
                                     dragAmount = CGSize(width: x, height: y)
                                 }
                             }
