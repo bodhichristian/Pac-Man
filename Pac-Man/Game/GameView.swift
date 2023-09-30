@@ -30,7 +30,7 @@ struct GameView: View {
                     Spacer()
                     Button {
                         if !isPlaying {
-                            withAnimation(.easeInOut(duration: 0.2).repeatForever()) {
+                            withAnimation(.easeInOut(duration: 0.1).repeatForever()) {
                                 isPlaying.toggle()
                             }
                         } else {

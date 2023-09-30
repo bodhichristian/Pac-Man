@@ -46,6 +46,8 @@ struct CharacterDisplay: View {
             }
             .padding(.top, 20)
             
+            Joystick()
+            
         }
         .background {
             Color.black

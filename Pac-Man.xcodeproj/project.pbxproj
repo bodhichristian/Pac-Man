@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA46979A2AC7C37600252289 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4697992AC7C37600252289 /* Joystick.swift */; };
 		AA53B6672AC5B20100F411E7 /* Ghost.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA53B6662AC5B20100F411E7 /* Ghost.swift */; };
 		AA53B6692AC5BD3000F411E7 /* CharacterDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA53B6682AC5BD3000F411E7 /* CharacterDisplay.swift */; };
 		AABAD01E2AC527E10085E6C8 /* PacManApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABAD01D2AC527E10085E6C8 /* PacManApp.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AA4697992AC7C37600252289 /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		AA53B6662AC5B20100F411E7 /* Ghost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghost.swift; sourceTree = "<group>"; };
 		AA53B6682AC5BD3000F411E7 /* CharacterDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDisplay.swift; sourceTree = "<group>"; };
 		AABAD01A2AC527E10085E6C8 /* Pac-Man.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pac-Man.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,6 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				AABAD0312AC52FD20085E6C8 /* Pellets.swift */,
+				AA4697992AC7C37600252289 /* Joystick.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -185,6 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AABAD0302AC52C5E0085E6C8 /* PressableButton.swift in Sources */,
+				AA46979A2AC7C37600252289 /* Joystick.swift in Sources */,
 				AABAD0322AC52FD20085E6C8 /* Pellets.swift in Sources */,
 				AA53B6692AC5BD3000F411E7 /* CharacterDisplay.swift in Sources */,
 				AABAD02C2AC5282F0085E6C8 /* PacMan.swift in Sources */,
