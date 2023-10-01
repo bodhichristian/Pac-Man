@@ -153,6 +153,18 @@ struct Joystick: View {
                     .gesture(
                         DragGesture()
                             .onChanged { gesture in
+                                
+                                // Add a function for using a X shaped crossing of the original circle position to determine direction of characters based on joystick movement.
+                                
+                                
+                                
+                                direction = calculateDirection(for: gesture.translation)
+                                
+                                print(direction)
+                                
+                                
+                                
+                                
                                 let translation = gesture.translation
                                 let distance = sqrt(pow(translation.width, 2) + pow(translation.height, 2))
                                 
@@ -179,6 +191,22 @@ struct Joystick: View {
             
         }
         .frame(width: scale * 200, height: scale * 200)
+    }
+    
+    // Calculate the direction based on dragAmount
+    func calculateDirection(for dragAmount: CGSize) -> Direction {
+        let angle = atan2(dragAmount.height, dragAmount.width)
+        let degrees = angle * 180 / .pi
+
+        if -45...45 ~= degrees {
+            return .right
+        } else if 45...135 ~= degrees {
+            return .up
+        } else if 135...180 ~= degrees || -180...(-135) ~= degrees {
+            return .left
+        } else {
+            return .down
+        }
     }
 }
 
