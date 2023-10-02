@@ -7,57 +7,16 @@
 
 import SwiftUI
 
-struct Triangle: Shape {
-    func path(in rect: CGRect) -> Path {
-        Path { path in
-            path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
-            path.addLine(to: CGPoint(x: rect.midX, y: rect.maxY * 0.25))
-            path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-            path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
-        }
-    }
-}
-
-struct JoystickBorder: Shape {
-    func path(in rect: CGRect) -> Path {
-        Path { path in
-            // MARK: Outer border
-            path.move(to: CGPoint(x: rect.maxX * 0.33, y: rect.minY))
-            path.addLine(to: CGPoint(x: rect.minX, y: rect.minY))
-            
-            path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
-            path.addLine(to: CGPoint(x: rect.maxX * 0.33, y: rect.maxY))
-            
-            path.move(to: CGPoint(x: rect.maxX * 0.66, y: rect.maxY))
-            path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-            
-            path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
-            path.addLine(to: CGPoint(x: rect.maxX * 0.66, y: rect.minY))
-            
-            
-            // MARK: Inner border
-            path.move(to: CGPoint(x: rect.maxX * 0.33, y: rect.maxY * 0.05))
-            path.addLine(to: CGPoint(x: rect.maxX * 0.05, y: rect.maxY * 0.05))
-            
-            path.addLine(to: CGPoint(x: rect.maxX * 0.05, y: rect.maxY * 0.95))
-            path.addLine(to: CGPoint(x: rect.maxX * 0.33, y: rect.maxY * 0.95))
-            
-            path.move(to: CGPoint(x: rect.maxX * 0.66, y: rect.maxY * 0.95))
-            path.addLine(to: CGPoint(x: rect.maxX * 0.95, y: rect.maxY * 0.95))
-            
-            path.addLine(to: CGPoint(x: rect.maxX * 0.95, y: rect.maxY * 0.05))
-            path.addLine(to: CGPoint(x: rect.maxX * 0.66, y: rect.maxY * 0.05))
-        }
-    }
-}
-
 struct Joystick: View {
     let scale: CGFloat
     let movementRadius: CGFloat = 50.0
-
+    
     @State private var dragAmount = CGSize.zero
+    @State private var shadowX: CGFloat = 0
+    @State private var shadowY: CGFloat = 0
     
     @Binding var direction: Direction
+    
     
     var body: some View {
         GeometryReader { geo in
@@ -75,7 +34,7 @@ struct Joystick: View {
                                 .offset(y: geo.size.height * 0.025)
                         }
                     }
-
+                
                 // Joystick and Arrows
                 ZStack {
                     // Up and down arrows
@@ -148,22 +107,12 @@ struct Joystick: View {
                             .frame(width: geo.size.width * 0.5)
                             .opacity(0.2)
                     }
-                    .shadow(color: .black, radius: 8)
+                    .shadow(color: .black, radius: 8, x: shadowX, y: shadowY)
                     .offset(dragAmount)
                     .gesture(
                         DragGesture()
                             .onChanged { gesture in
-                                
-                                // Add a function for using a X shaped crossing of the original circle position to determine direction of characters based on joystick movement.
-                                
-                                
-                                
                                 direction = calculateDirection(for: gesture.translation)
-                                
-                                print(direction)
-                                
-                                
-                                
                                 
                                 let translation = gesture.translation
                                 let distance = sqrt(pow(translation.width, 2) + pow(translation.height, 2))
@@ -178,9 +127,17 @@ struct Joystick: View {
                                     let y = geo.size.width * 0.15 * sin(angle)
                                     dragAmount = CGSize(width: x, height: y)
                                 }
+                                
+                                withAnimation {
+                                    // shadow control
+                                    shadowX = gesture.translation.width * 0.15
+                                    shadowY = gesture.translation.height * 0.15
+                                }
                             }
                             .onEnded { _ in
                                 dragAmount = .zero
+                                shadowX = .zero
+                                shadowY = .zero
                             }
                     )
                     .animation(.bouncy(), value: dragAmount)
@@ -197,7 +154,7 @@ struct Joystick: View {
     func calculateDirection(for dragAmount: CGSize) -> Direction {
         let angle = atan2(dragAmount.height, dragAmount.width)
         let degrees = angle * 180 / .pi
-
+        
         if -45...45 ~= degrees {
             return .right
         } else if 45...135 ~= degrees {
@@ -212,4 +169,49 @@ struct Joystick: View {
 
 #Preview {
     Joystick(scale: 1.5, direction: .constant(.none))
+}
+
+// Helper shapes
+struct Triangle: Shape {
+    func path(in rect: CGRect) -> Path {
+        Path { path in
+            path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
+            path.addLine(to: CGPoint(x: rect.midX, y: rect.maxY * 0.25))
+            path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+            path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
+        }
+    }
+}
+
+struct JoystickBorder: Shape {
+    func path(in rect: CGRect) -> Path {
+        Path { path in
+            // MARK: Outer border
+            path.move(to: CGPoint(x: rect.maxX * 0.33, y: rect.minY))
+            path.addLine(to: CGPoint(x: rect.minX, y: rect.minY))
+            
+            path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
+            path.addLine(to: CGPoint(x: rect.maxX * 0.33, y: rect.maxY))
+            
+            path.move(to: CGPoint(x: rect.maxX * 0.66, y: rect.maxY))
+            path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+            
+            path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+            path.addLine(to: CGPoint(x: rect.maxX * 0.66, y: rect.minY))
+            
+            
+            // MARK: Inner border
+            path.move(to: CGPoint(x: rect.maxX * 0.33, y: rect.maxY * 0.05))
+            path.addLine(to: CGPoint(x: rect.maxX * 0.05, y: rect.maxY * 0.05))
+            
+            path.addLine(to: CGPoint(x: rect.maxX * 0.05, y: rect.maxY * 0.95))
+            path.addLine(to: CGPoint(x: rect.maxX * 0.33, y: rect.maxY * 0.95))
+            
+            path.move(to: CGPoint(x: rect.maxX * 0.66, y: rect.maxY * 0.95))
+            path.addLine(to: CGPoint(x: rect.maxX * 0.95, y: rect.maxY * 0.95))
+            
+            path.addLine(to: CGPoint(x: rect.maxX * 0.95, y: rect.maxY * 0.05))
+            path.addLine(to: CGPoint(x: rect.maxX * 0.66, y: rect.maxY * 0.05))
+        }
+    }
 }

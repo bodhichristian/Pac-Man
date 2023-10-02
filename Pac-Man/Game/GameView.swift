@@ -8,48 +8,48 @@
 import SwiftUI
 
 struct GameView: View {
+    
+    
+    let scale = 1.5
+    
     @State private var isPlaying = false
+    @State private var direction: Direction = .none
+    
+    // Return an rotation amount for Pac-Man
+    private var rotationDegree: Double {
+        switch direction {
+        case .left:
+            180
+        case .right:
+            0
+        case .up:
+            90
+        case .down:
+            270
+        case .none:
+            0
+        }
+    }
     
     var body: some View {
         GeometryReader { geo in
             ZStack {
                 Color.black
+                    .ignoresSafeArea()
                 
-                if isPlaying {
-                    HStack {
-                        Spacer()
-                        Pellets()
-                            .clipShape(.rect)
-                            .frame(width: geo.size.width * 0.6)
-                    }
-                }
-                
-                PacMan(scale: 5, mouthOpen: $isPlaying)
-
                 VStack {
                     Spacer()
-                    Button {
-                        if !isPlaying {
-                            withAnimation(.easeInOut(duration: 0.1).repeatForever()) {
-                                isPlaying.toggle()
-                            }
-                        } else {
-                            withAnimation(.easeInOut(duration: 0.2)){
-                                isPlaying = false
-                            }
-                        }
-                    } label: {
-                        HStack {
-                            Image(systemName: "play.fill")
-                            Image(systemName: "pause")
-                        }
-                        .defaultButtonFormatting()
-                    }
-                    .withPressableStyle()
-                    .padding()
+                    
+                    PacMan(scale: scale, mouthOpen: $isPlaying)
+                    
+                    Spacer()
+                    
+                    Joystick(scale: scale * 0.8, direction: $direction)
+                        .padding(.bottom, 40)
                 }
+
             }
-            .ignoresSafeArea()
+            
         }
     }
 }
