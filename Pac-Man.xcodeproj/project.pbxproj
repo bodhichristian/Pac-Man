@@ -18,6 +18,7 @@
 		AABAD02E2AC52BD00085E6C8 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABAD02D2AC52BD00085E6C8 /* GameView.swift */; };
 		AABAD0302AC52C5E0085E6C8 /* PressableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABAD02F2AC52C5E0085E6C8 /* PressableButton.swift */; };
 		AABAD0322AC52FD20085E6C8 /* Pellets.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABAD0312AC52FD20085E6C8 /* Pellets.swift */; };
+		AAF9FC0F2ACD893000A28A1C /* ArcadeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF9FC0E2ACD893000A28A1C /* ArcadeButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		AABAD02D2AC52BD00085E6C8 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		AABAD02F2AC52C5E0085E6C8 /* PressableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PressableButton.swift; sourceTree = "<group>"; };
 		AABAD0312AC52FD20085E6C8 /* Pellets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pellets.swift; sourceTree = "<group>"; };
+		AAF9FC0E2ACD893000A28A1C /* ArcadeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcadeButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 			children = (
 				AABAD0312AC52FD20085E6C8 /* Pellets.swift */,
 				AA4697992AC7C37600252289 /* Joystick.swift */,
+				AAF9FC0E2ACD893000A28A1C /* ArcadeButton.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -201,6 +204,7 @@
 				AABAD0302AC52C5E0085E6C8 /* PressableButton.swift in Sources */,
 				AA46979A2AC7C37600252289 /* Joystick.swift in Sources */,
 				AABAD0322AC52FD20085E6C8 /* Pellets.swift in Sources */,
+				AAF9FC0F2ACD893000A28A1C /* ArcadeButton.swift in Sources */,
 				AA53B6692AC5BD3000F411E7 /* CharacterDisplay.swift in Sources */,
 				AABAD02C2AC5282F0085E6C8 /* PacMan.swift in Sources */,
 				AABAD02E2AC52BD00085E6C8 /* GameView.swift in Sources */,

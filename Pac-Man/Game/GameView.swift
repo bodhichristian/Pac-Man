@@ -42,13 +42,14 @@ struct GameView: View {
             GeometryReader { geo in
                 VStack {
                     Spacer()
+                    
                     PacMan(scale: scale, mouthOpen: $mouthOpen)
-                        
                         .frame(width: geo.size.width, height: geo.size.width)
                         .rotationEffect(Angle(degrees: rotationDegree))
                         .offset(x: pacManXOffset * 0.8, y: pacManYOffset * 0.8)
                     
                     Spacer()
+                    
                     Joystick(scale: scale * 0.8, direction: $direction)
                         .padding(.bottom, 40)
                         .onChange(of: direction) { oldValue, newValue in
@@ -56,7 +57,7 @@ struct GameView: View {
                                 movePacMan(in: geo)
                             }
                             if oldValue == .none {
-                                withAnimation(.easeInOut(duration: 0.15).repeatForever()) {
+                                withAnimation(.linear(duration: 0.15).repeatForever()) {
                                     mouthOpen.toggle()
                                 }
                             }
@@ -67,16 +68,20 @@ struct GameView: View {
     }
     
     private func movePacMan(in geo: GeometryProxy) {
-        
-        if direction == .up  {
-            pacManYOffset = -geo.size.width / 2
-        } else if direction == .down {
-            pacManYOffset =  geo.size.width / 2
-        } else if direction == .left {
+        switch direction {
+        case .left:
             pacManXOffset = -geo.size.width / 2
-        } else if direction == .right {
-            pacManXOffset = geo.size.width / 2
+        case .right:
+            pacManXOffset =  geo.size.width / 2
+        case .up:
+            pacManYOffset = -geo.size.width / 2
+        case .down:
+            pacManYOffset = geo.size.width / 2
+        case .none:
+            return
         }
+        
+
     }
     
 }

@@ -35,7 +35,7 @@ struct PacMan: View {
     @Binding var mouthOpen: Bool
     
     var body: some View {
-        PacManShape(mouthAngle: mouthOpen ? 35 : 0)
+        PacManShape(mouthAngle: mouthOpen ? 45 : 0)
             .frame(width: scale * 50, height: scale * 50)
             .foregroundStyle(.yellow)
     }
