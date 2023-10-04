@@ -158,11 +158,11 @@ struct Joystick: View {
         if -45...45 ~= degrees {
             return .right
         } else if 45...135 ~= degrees {
-            return .up
+            return .down
         } else if 135...180 ~= degrees || -180...(-135) ~= degrees {
             return .left
         } else {
-            return .down
+            return .up
         }
     }
 }
