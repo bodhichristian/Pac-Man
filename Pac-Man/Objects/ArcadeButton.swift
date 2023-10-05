@@ -81,8 +81,6 @@ struct ArcadeButton: View {
     }
 }
 
-
-
 struct ArcadeButtonStyle: ButtonStyle {
     
     let scaleAmount: CGFloat = 0.97
@@ -93,7 +91,6 @@ struct ArcadeButtonStyle: ButtonStyle {
         
     }
 }
-
 
 extension View {
     func withArcadeButtonStyle() -> some View {
