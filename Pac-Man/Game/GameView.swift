@@ -54,28 +54,41 @@ struct GameView: View {
                     Spacer()
                     
                     HStack {
-                        ArcadeButton(color: .red, scale: scale * 0.7, pressed: $gameStarted) {
-                            startGame()
-                        }
-                        
-                    }
-                    
-                    
-                    
-                    Joystick(scale: scale * 0.8, direction: $direction)
-                        .padding(.bottom, 40)
-                        .onChange(of: direction) { oldValue, newValue in
-                            withAnimation(.linear){
-                                movePacMan(in: geo)
-                            }
-                            if oldValue == .none {
-                                withAnimation(.linear(duration: 0.15).repeatForever()) {
-                                    mouthOpen.toggle()
+                        Joystick(scale: scale * 0.8, direction: $direction)
+                          
+                            .onChange(of: direction) { oldValue, newValue in
+                                withAnimation(.linear){
+                                    movePacMan(in: geo)
+                                }
+                                if oldValue == .none {
+                                    withAnimation(.linear(duration: 0.15).repeatForever()) {
+                                        mouthOpen.toggle()
+                                    }
                                 }
                             }
+                        Spacer()
+                        VStack(spacing: -10) {
+                            Text("Start")
+                                .fontDesign(.monospaced)
+                                .font(.title2).bold()
+                                .foregroundStyle(.red)
+                            
+                            ArcadeButton(color: .red, scale: scale * 0.7) {
+                                startGame()
+                            }
+                            .padding(.bottom)
+                            
+                            Text("Reset")
+                                .fontDesign(.monospaced)
+                                .font(.title2).bold()
+                                .foregroundStyle(.white)
+                            
+                            ArcadeButton(color: .white, scale: scale * 0.7) {
+                                reset()
+                            }
                         }
-                    
-                    
+                    }
+                    .padding()
                 }
             }
         }
@@ -83,8 +96,15 @@ struct GameView: View {
     
     private func startGame() -> () {
         direction = .right
-        print(direction)
-        
+        // this will notify onChange(of: direction)
+        // to call movePacMan(in geo:)
+    }
+    
+    private func reset() {
+        direction = .none
+        mouthOpen = false
+        pacManXOffset = 0
+        pacManYOffset = 0
     }
     
     private func movePacMan(in geo: GeometryProxy) {
@@ -100,10 +120,7 @@ struct GameView: View {
         case .none:
             return
         }
-        
-        
     }
-    
 }
 
 #Preview {
