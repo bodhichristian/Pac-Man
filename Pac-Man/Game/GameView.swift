@@ -18,6 +18,9 @@ struct GameView: View {
     @State private var pacManXOffset: CGFloat = .zero
     @State private var pacManYOffset: CGFloat = .zero
     
+    @State private var gameStarted = false
+    @State private var resetPressed = false
+    
     // Return an rotation amount for Pac-Man
     private var rotationDegree: Double {
         switch direction {
@@ -50,18 +53,27 @@ struct GameView: View {
                     
                     Spacer()
                     
-                    Joystick(scale: scale * 0.8, direction: $direction)
-                        .padding(.bottom, 40)
-                        .onChange(of: direction) { oldValue, newValue in
-                            withAnimation(.linear){
-                                movePacMan(in: geo)
-                            }
-                            if oldValue == .none {
-                                withAnimation(.linear(duration: 0.15).repeatForever()) {
-                                    mouthOpen.toggle()
+                    HStack {
+                        ArcadeButton(color: .red, scale: scale * 0.7, pressed: $gameStarted)
+                        ArcadeButton(color: .white, scale: scale * 0.7, pressed: $gameStarted)
+                    }
+                        
+                   
+                            
+                            Joystick(scale: scale * 0.8, direction: $direction)
+                                .padding(.bottom, 40)
+                                .onChange(of: direction) { oldValue, newValue in
+                                    withAnimation(.linear){
+                                        movePacMan(in: geo)
+                                    }
+                                    if oldValue == .none {
+                                        withAnimation(.linear(duration: 0.15).repeatForever()) {
+                                            mouthOpen.toggle()
+                                        }
+                                    }
                                 }
-                            }
-                        }
+                        
+                    
                 }
             }
         }

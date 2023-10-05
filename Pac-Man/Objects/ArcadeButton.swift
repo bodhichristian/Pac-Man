@@ -8,34 +8,46 @@
 import SwiftUI
 
 struct ArcadeButton: View {
-    @State private var pressed = false
+    let color: Color
+    let scale: Double
+    @Binding var pressed: Bool
     
     var body: some View {
         GeometryReader { geo in
             ZStack {
                 // Outer ring
                 Circle()
-                    .stroke(lineWidth: geo.size.width * 0.1)
+                    .stroke(lineWidth: geo.size.width * 0.05)
+                    .overlay {
+                        LinearGradient(
+                            colors: [.clear, .clear, .black.opacity(0.3)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                        .padding(-10)
+                        .opacity(pressed ? 0 : 1)
+                    }
                 
                 // Button
- 
                 Button {
-                    
+                    pressed = true
                 } label : {
                     ZStack {
                         Circle()
-                            .padding(geo.size.width * 0.08)
+                            .padding(geo.size.width * 0.05)
                         
                         // Shading
                         Circle()
-                            .padding(geo.size.width * 0.08)
+                            .padding(geo.size.width * 0.04)
                             .foregroundStyle(
                                 LinearGradient(
-                                    colors: [.black, .clear, .clear],
+                                    colors: [.black.opacity(0.3), .clear, .clear],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 )
                             )
+                            .padding(geo.size.width * 0.08)
+                        
                         Circle()
                             .fill(
                                 RadialGradient(
@@ -45,49 +57,54 @@ struct ArcadeButton: View {
                                     endRadius: geo.size.width * 0.6
                                 )
                             )
-                            .padding(geo.size.width * 0.15)
+                            .padding(geo.size.width * 0.12)
                             .opacity(0.15)
                     }
                 }
                 .withArcadeButtonStyle()
-                .onTapGesture {
-                    pressed = true
-                }
-
+                
             }
-            .foregroundStyle(.red)
-            .padding(40)
+            .foregroundStyle(color)
+            .position(CGPoint(x: geo.size.width / 2, y: geo.size.height / 2))
+            
         }
-        
+        .padding()
+        .frame(width: scale * 100, height: scale * 100)
     }
 }
 
 #Preview {
-    ArcadeButton()
+    VStack {
+        ArcadeButton(color: .red, scale: 2.0, pressed: .constant(false))
+        ArcadeButton(color: .yellow, scale: 2.0, pressed: .constant(false))
+        ArcadeButton(color: .green, scale: 2.0, pressed: .constant(false))
+    }
 }
 
 
 
 struct ArcadeButtonStyle: ButtonStyle {
     
-    let scaleAmount: CGFloat = 0.95
-    
-    
+    let scaleAmount: CGFloat = 0.97
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .scaleEffect(configuration.isPressed ? scaleAmount : 1.0)
-            .brightness(configuration.isPressed ? -0.05 : 0)
-            
+            .brightness(configuration.isPressed ? -0.04 : 0)
+        
     }
 }
 
 
 extension View {
-
     func withArcadeButtonStyle() -> some View {
         // No need to notate `self` - system will handle
         buttonStyle(ArcadeButtonStyle())
     }
 }
+
+
+
+
+
 
 
