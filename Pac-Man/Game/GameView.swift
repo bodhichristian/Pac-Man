@@ -36,24 +36,29 @@ struct GameView: View {
     }
     
     var body: some View {
-        ZStack {
-            Color.black
-                .ignoresSafeArea()
-            
-            GeometryReader { geo in
+        GeometryReader { geo in
+            ZStack {
+                Color.black
+                    .ignoresSafeArea()
+                
+                
                 VStack {
                     Spacer()
                     
-                    PacMan(scale: scale, mouthOpen: $mouthOpen)
-                        .frame(width: geo.size.width, height: geo.size.width)
-                        .rotationEffect(Angle(degrees: rotationDegree))
-                        .offset(x: pacManXOffset * 0.8, y: pacManYOffset * 0.8)
-                    
+                    ZStack{
+                        MazeView()
+                        
+                        PacMan(scale: scale, mouthOpen: $mouthOpen)
+                            .frame(width: geo.size.width, height: geo.size.width)
+                            .rotationEffect(Angle(degrees: rotationDegree))
+                            .offset(x: pacManXOffset * 0.8, y: pacManYOffset * 0.8)
+                        
+                    }
                     Spacer()
                     
                     HStack {
                         Joystick(scale: scale * 0.8, direction: $direction)
-                          
+                        
                             .onChange(of: direction) { oldValue, newValue in
                                 withAnimation(.linear){
                                     movePacMan(in: geo)
@@ -112,6 +117,10 @@ struct GameView: View {
         case .left:
             while pacManXOffset > -geo.size.width / 2{
                 pacManXOffset -= cellSize
+                if pacManXOffset ==  -cellSize * 2
+                    && 0...10 ~= pacManYOffset {
+                    break
+                }
             }
         case .right:
             while pacManXOffset < geo.size.width / 2{
