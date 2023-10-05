@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct GameView: View {
-    
-    
     let scale = 1.5
     
     @State private var mouthOpen = false
@@ -108,15 +106,25 @@ struct GameView: View {
     }
     
     private func movePacMan(in geo: GeometryProxy) {
+        let cellSize = geo.size.width / 10
+        
         switch direction {
         case .left:
-            pacManXOffset = -geo.size.width / 2
+            while pacManXOffset > -geo.size.width / 2{
+                pacManXOffset -= cellSize
+            }
         case .right:
-            pacManXOffset =  geo.size.width / 2
+            while pacManXOffset < geo.size.width / 2{
+                pacManXOffset += cellSize
+            }
         case .up:
-            pacManYOffset = -geo.size.width / 2
+            while pacManYOffset > -geo.size.width / 2{
+                pacManYOffset -= cellSize
+            }
         case .down:
-            pacManYOffset = geo.size.width / 2
+            while pacManYOffset <  geo.size.width / 2{
+                pacManYOffset += cellSize
+            }
         case .none:
             return
         }
