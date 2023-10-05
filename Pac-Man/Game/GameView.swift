@@ -54,29 +54,37 @@ struct GameView: View {
                     Spacer()
                     
                     HStack {
-                        ArcadeButton(color: .red, scale: scale * 0.7, pressed: $gameStarted)
-                        ArcadeButton(color: .white, scale: scale * 0.7, pressed: $gameStarted)
+                        ArcadeButton(color: .red, scale: scale * 0.7, pressed: $gameStarted) {
+                            startGame()
+                        }
+                        
                     }
-                        
-                   
-                            
-                            Joystick(scale: scale * 0.8, direction: $direction)
-                                .padding(.bottom, 40)
-                                .onChange(of: direction) { oldValue, newValue in
-                                    withAnimation(.linear){
-                                        movePacMan(in: geo)
-                                    }
-                                    if oldValue == .none {
-                                        withAnimation(.linear(duration: 0.15).repeatForever()) {
-                                            mouthOpen.toggle()
-                                        }
-                                    }
+                    
+                    
+                    
+                    Joystick(scale: scale * 0.8, direction: $direction)
+                        .padding(.bottom, 40)
+                        .onChange(of: direction) { oldValue, newValue in
+                            withAnimation(.linear){
+                                movePacMan(in: geo)
+                            }
+                            if oldValue == .none {
+                                withAnimation(.linear(duration: 0.15).repeatForever()) {
+                                    mouthOpen.toggle()
                                 }
-                        
+                            }
+                        }
+                    
                     
                 }
             }
         }
+    }
+    
+    private func startGame() -> () {
+        direction = .right
+        print(direction)
+        
     }
     
     private func movePacMan(in geo: GeometryProxy) {
@@ -93,7 +101,7 @@ struct GameView: View {
             return
         }
         
-
+        
     }
     
 }

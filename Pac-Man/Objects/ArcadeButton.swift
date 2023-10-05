@@ -10,7 +10,10 @@ import SwiftUI
 struct ArcadeButton: View {
     let color: Color
     let scale: Double
-    @Binding var pressed: Bool
+    
+    let action: () -> ()
+    
+    @State private var pressed = false
     
     var body: some View {
         GeometryReader { geo in
@@ -31,6 +34,7 @@ struct ArcadeButton: View {
                 // Button
                 Button {
                     pressed = true
+                    action()
                 } label : {
                     ZStack {
                         Circle()
@@ -75,15 +79,22 @@ struct ArcadeButton: View {
 
 #Preview {
     VStack {
-        ArcadeButton(color: .red, scale: 2.0, pressed: .constant(false))
-        ArcadeButton(color: .yellow, scale: 2.0, pressed: .constant(false))
-        ArcadeButton(color: .green, scale: 2.0, pressed: .constant(false))
+        ArcadeButton(color: .white, scale: 2.0) {
+            // action closure
+        }
+        ArcadeButton(color: .blue, scale: 2.0) {
+            // action closure
+        }
+        ArcadeButton(color: .mint, scale: 2.0) {
+            // action closure
+        }
+
     }
 }
 
 struct ArcadeButtonStyle: ButtonStyle {
-    
     let scaleAmount: CGFloat = 0.97
+    
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .scaleEffect(configuration.isPressed ? scaleAmount : 1.0)
