@@ -18,6 +18,7 @@ struct GameView: View {
     
     @State private var gameStarted = false
     @State private var resetPressed = false
+    @State private var pacManMovementTimer: Timer?
     
     // Return an rotation amount for Pac-Man
     private var rotationDegree: Double {
@@ -46,7 +47,7 @@ struct GameView: View {
                     Spacer()
                     
                     ZStack{
-                        MazeView()
+                        //MazeView()
                         
                         PacMan(scale: scale, mouthOpen: $mouthOpen)
                             .frame(width: geo.size.width, height: geo.size.width)
@@ -113,38 +114,49 @@ struct GameView: View {
     private func movePacMan(in geo: GeometryProxy) {
         let cellSize = geo.size.width / 10
         
-        switch direction {
-        case .left:
-            while pacManXOffset > -geo.size.width / 2{
-                pacManXOffset -= cellSize
-                if pacManXOffset ==  -cellSize * 2
-                    && 0...10 ~= pacManYOffset {
-                    break
+        // Stop any existing movment timer
+        pacManMovementTimer?.invalidate()
+        
+        pacManMovementTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+            withAnimation(.linear){
+                switch direction {
+                case .left:
+                    pacManXOffset -= cellSize
+                    if pacManXOffset <= geo.size.width / 2 {
+                            pacManXOffset = -geo.size.width / 2
+                            timer.invalidate()
+                    }
+                    
+                case .right:
+                    pacManXOffset += cellSize
+                    if pacManXOffset >= geo.size.width / 2 {
+                        pacManXOffset = geo.size.width / 2
+                        timer.invalidate()
+                    }
+                case .up:
+                    pacManYOffset -= cellSize
+                    if pacManYOffset <= geo.size.width / 2 {
+                        pacManYOffset = -geo.size.width / 2
+                        timer.invalidate()
+                    }
+                case .down:
+                    pacManYOffset += cellSize
+                    if pacManYOffset >= geo.size.width / 2 {
+                        pacManYOffset = geo.size.width / 2
+                        timer.invalidate()
+                    }
+                case .none:
+                    return
                 }
             }
-        case .right:
-            while pacManXOffset < geo.size.width / 2{
-                pacManXOffset += cellSize
-            }
-        case .up:
-            while pacManYOffset > -geo.size.width / 2{
-                pacManYOffset -= cellSize
-            }
-        case .down:
-            while pacManYOffset <  geo.size.width / 2{
-                pacManYOffset += cellSize
-            }
-        case .none:
-            return
         }
+        
     }
 }
 
 #Preview {
     GameView()
 }
-
-
 
 
 
