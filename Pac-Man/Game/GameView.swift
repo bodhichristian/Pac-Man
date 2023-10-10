@@ -60,16 +60,7 @@ struct GameView: View {
                     HStack {
                         Joystick(scale: scale * 0.8, direction: $direction)
                         
-                            .onChange(of: direction) { oldValue, newValue in
-                                withAnimation(.linear){
-                                    movePacMan(in: geo)
-                                }
-                                if oldValue == .none {
-                                    withAnimation(.linear(duration: 0.15).repeatForever()) {
-                                        mouthOpen.toggle()
-                                    }
-                                }
-                            }
+                        
                         Spacer()
                         VStack(spacing: -10) {
                             Text("Start")
@@ -95,6 +86,16 @@ struct GameView: View {
                     .padding()
                 }
             }
+            .onChange(of: direction) { oldValue, newValue in
+                movePacMan(in: geo)
+                
+                // Begin mouth animation with first move of joystick
+                if oldValue == .none {
+                    withAnimation(.linear(duration: 0.15).repeatForever()) {
+                        mouthOpen.toggle()
+                    }
+                }
+            }
         }
     }
     
@@ -114,43 +115,33 @@ struct GameView: View {
     private func movePacMan(in geo: GeometryProxy) {
         let cellSize = geo.size.width / 10
         
-        // Stop any existing movment timer
-        pacManMovementTimer?.invalidate()
-        
-        pacManMovementTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
-            withAnimation(.linear){
+            withAnimation(.linear(duration: 0.2)){
                 switch direction {
                 case .left:
-                    pacManXOffset -= cellSize
-                    if pacManXOffset <= geo.size.width / 2 {
-                            pacManXOffset = -geo.size.width / 2
-                            timer.invalidate()
+                    while pacManXOffset > -geo.size.width / 2{
+                        pacManXOffset -= cellSize
                     }
+
                     
                 case .right:
-                    pacManXOffset += cellSize
-                    if pacManXOffset >= geo.size.width / 2 {
-                        pacManXOffset = geo.size.width / 2
-                        timer.invalidate()
+                    while pacManXOffset < geo.size.width / 2{
+                        pacManXOffset += cellSize
+                        
                     }
                 case .up:
-                    pacManYOffset -= cellSize
-                    if pacManYOffset <= geo.size.width / 2 {
-                        pacManYOffset = -geo.size.width / 2
-                        timer.invalidate()
+                    while pacManYOffset > -geo.size.width / 2 {
+                        pacManYOffset -= cellSize
+                        
                     }
                 case .down:
-                    pacManYOffset += cellSize
-                    if pacManYOffset >= geo.size.width / 2 {
-                        pacManYOffset = geo.size.width / 2
-                        timer.invalidate()
+                    while pacManYOffset < geo.size.width / 2{
+                        pacManYOffset += cellSize
+                        
                     }
                 case .none:
                     return
                 }
             }
-        }
-        
     }
 }
 
